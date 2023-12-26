@@ -9,6 +9,7 @@ ENV GITHUB_REPOSITORY ""
 ENV RUNNER_WORKDIR "_work"
 ENV GLOBAL_ENVIRONMENT ""
 ENV DEBIAN_FRONTEND=noninteractive
+ENV GITHUB_PAT="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"
 
 RUN apt-get update \
     && apt-get install -y \
