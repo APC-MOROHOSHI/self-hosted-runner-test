@@ -1,8 +1,10 @@
 #!/bin/sh
+INSTALLATION_ACCESS_TOKEN=$(./generate_installation_access_token.sh)
+
 registration_url="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/actions/runners/registration-token"
 echo "Requesting registration URL at '${registration_url}'"
 
-payload=$(curl -sSX POST -H "Authorization: token ${GITHUB_PAT}" ${registration_url})
+payload=$(curl -sSX POST -H "Authorization: token ${INSTALLATION_ACCESS_TOKEN}" ${registration_url})
 RUNNER_TOKEN=$(echo "${payload}" | jq .token --raw-output --exit-status)
 
 if [ $? -ne 0 ]; then
@@ -10,7 +12,7 @@ if [ $? -ne 0 ]; then
   echo "Response body:"
   echo "${payload}"
   echo
-  echo "Please check GITHUB_PAT or related settings."
+  echo "Please check INSTALLATION_ACCESS_TOKEN or related settings."
   exit 1
 fi
 

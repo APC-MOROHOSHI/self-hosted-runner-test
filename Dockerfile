@@ -5,6 +5,7 @@ ARG GITHUB_RUNNER_VERSION="2.303.0"
 ENV RUNNER_NAME "runner"
 ENV RUNNER_WORKDIR "_work"
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PRIVATE_KEY="$(cat ~/test-github-app-morohoshi.2024-01-15.private-key.pem)"
 
 RUN apt-get update \
     && apt-get install -y \
@@ -27,6 +28,7 @@ RUN curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNE
     && sudo ./bin/installdependencies.sh
 
 COPY --chown=github:github entrypoint.sh ./entrypoint.sh
+COPY --chown=github:github generate_installation_access_token.sh ./generate_installation_access_token.sh
 RUN sudo chmod u+x ./entrypoint.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
